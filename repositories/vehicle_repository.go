@@ -3,7 +3,6 @@ package repositories
 import "fmt"
 
 type vehicleRepository struct {
-
 }
 
 type VehicleRepository interface {
@@ -14,7 +13,6 @@ type VehicleRepository interface {
 func NewVehicleRepository() VehicleRepository {
 	return &vehicleRepository{}
 }
-
 
 func (s *vehicleRepository) GetAll() string {
 	fmt.Println("Get All Vehicle")

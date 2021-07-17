@@ -9,8 +9,8 @@ type customerService struct {
 }
 
 type CustomerService interface {
-	GetAll() string
-	GetByCode(code string) string
+	GetAll() (string, error)
+	GetByCode(code string) (string, error)
 }
 
 func NewCustomerService(injectedCustomerRepository repositories.CustomerRepository) CustomerService {
@@ -19,10 +19,10 @@ func NewCustomerService(injectedCustomerRepository repositories.CustomerReposito
 	}
 }
 
-func (s *customerService) GetAll() string {
-	return s.customerRepository.GetAll()
+func (s *customerService) GetAll() (string, error) {
+	return s.customerRepository.GetAll(), nil
 }
 
-func (s *customerService) GetByCode(code string) string {
-	return s.customerRepository.GetByCode(code)
+func (s *customerService) GetByCode(code string) (string, error) {
+	return s.customerRepository.GetByCode(code), nil
 }

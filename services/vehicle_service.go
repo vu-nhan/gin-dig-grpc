@@ -9,8 +9,8 @@ type vehicleService struct {
 }
 
 type VehicleService interface {
-	GetAll() string
-	GetByCode(code string) string
+	GetAll() (string, error)
+	GetByCode(code string) (string, error)
 }
 
 func NewVehicleService(injectedVehicleRepository repositories.VehicleRepository) VehicleService {
@@ -19,10 +19,10 @@ func NewVehicleService(injectedVehicleRepository repositories.VehicleRepository)
 	}
 }
 
-func (s *vehicleService) GetAll() string {
-	return s.vehicleRepository.GetAll()
+func (s *vehicleService) GetAll() (string, error) {
+	return s.vehicleRepository.GetAll(), nil
 }
 
-func (s *vehicleService) GetByCode(code string) string {
-	return s.vehicleRepository.GetByCode(code)
+func (s *vehicleService) GetByCode(code string) (string, error) {
+	return s.vehicleRepository.GetByCode(code), nil
 }
