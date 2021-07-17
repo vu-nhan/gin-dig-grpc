@@ -1,9 +1,11 @@
 package main
 
 import (
-	pb "github.com/vu-nhan/gin-dig-rest/pb/generated"
-	"github.com/vu-nhan/gin-dig-rest/provider"
-	"github.com/vu-nhan/gin-dig-rest/transport"
+	"fmt"
+	"github.com/vu-nhan/gin-dig-grpc/handlers"
+	pb "github.com/vu-nhan/gin-dig-grpc/pb/generated"
+	"github.com/vu-nhan/gin-dig-grpc/provider"
+	"github.com/vu-nhan/gin-dig-grpc/transport"
 	"log"
 	"net"
 
@@ -19,14 +21,26 @@ func main()  {
 	}
 
 
-	iocProvider := provider.IocProvider{}
-	iocProvider.InitIocProvider()
+	container := provider.NewIocContainer()
+	container.InitializeDependency()
 
-	s := grpc.NewServer()
-	pb.RegisterGreeterServer(s, &transport.GrpcServer{})
+	grpcServer := grpc.NewServer()
+	if err := container.Invoke(func(vehicleHandler handlers.VehicleHandler) {
+		vehicleGrpcServer := transport.NewGrpcServer(vehicleHandler)
+		pb.RegisterVehicleServer(grpcServer, vehicleGrpcServer)
+	}); err != nil {
+		fmt.Printf("Invoke Vehicle Handler error \n %s", err.Error())
+	}
 
-	reflection.Register(s)
-	if err := s.Serve(lis); err != nil {
+	if err := container.Invoke(func(customerHandler handlers.CustomerHandler) {
+		customerGrpcServer := transport.NewCustomerGrpcServer(customerHandler)
+		pb.RegisterCustomerServer(grpcServer, customerGrpcServer)
+	}); err != nil {
+		fmt.Printf("Invoke Customer Handler error \n %s", err.Error())
+	}
+
+	reflection.Register(grpcServer)
+	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }

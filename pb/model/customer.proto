@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = ".;pb";
+
+service Customer {
+  rpc GetAllCustomer (GetAllCustomerRequest) returns (GetAllCustomerResponse) {}
+  rpc GetCustomerByCode (GetCustomerByCodeRequest) returns (GetCustomerByCodeResponse) {}
+}
+
+message GetAllCustomerRequest {
+
+}
+
+message GetAllCustomerResponse {
+  string message = 1;
+}
+
+message GetCustomerByCodeRequest {
+  string code = 1;
+}
+
+message GetCustomerByCodeResponse {
+  string message = 1;
+}

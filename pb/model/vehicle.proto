@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = ".;pb";
+
+service Vehicle {
+  rpc GetAllVehicles (GetAllVehiclesRequest) returns (GetAllVehiclesResponse) {}
+  rpc GetVehicleByCode (GetVehicleByCodeRequest) returns (GetVehicleByCodeResponse) {}
+}
+
+message GetAllVehiclesRequest {
+
+}
+
+message GetAllVehiclesResponse {
+  string message = 1;
+}
+
+message GetVehicleByCodeRequest {
+  string code = 1;
+}
+
+message GetVehicleByCodeResponse {
+  string message = 1;
+}

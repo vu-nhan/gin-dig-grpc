@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/.gitignore
+.idea/dictionaries/
+.idea/gin-dig-gprc.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+models/
+pb/generated/
